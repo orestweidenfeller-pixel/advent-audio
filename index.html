@@ -1,15 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Audio Test</title>
+  <meta charset="utf-8" />
+  <title>Advent Calendar Quiz</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 650px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #fff8f0;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #b04e2c;
+    }
+    #progress {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #2e7d32;
+    }
+    .question-block {
+      position: relative;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #fff0e1;
+      border-radius: 10px;
+      box-shadow: 2px 2px 6px #e2cfc1;
+    }
+    input[type="text"] {
+      padding: 8px;
+      font-size: 1em;
+      width: 60%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 8px 15px;
+      margin-left: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: none;
+      background: #b04e2c;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #923c1e;
+    }
+    .tick {
+      display: none;
+      color: #2e7d32;
+      font-size: 1.5em;
+      margin-left: 10px;
+    }
+    #final-clue {
+      margin-top: 40px;
+      font-weight: bold;
+      color: #2e7d32;
+      font-size: 1.3em;
+      display: none;
+      text-align: center;
+      background: #dff0d8;
+      border: 2px solid #2e7d32;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Audio Test</h1>
+  <h1>Advent Calendar Quiz</h1>
+  <div id="progress">✅ 0 / 4 correct</div>
+
+  <div class="question-block" id="q1">
+    <p>1. How to say I love you in ukrainian</p>
+    <input type="text" id="answer1" placeholder="Your answer (s)" />
+    <button onclick="checkAnswer(1)">Submit</button>
+    <span class="tick" id="tick1">✅</span>
+  </div>
+
+  <div class="question-block" id="q2">
+    <p>2. Quel est mon plat Ukrainien préféré ?</p>
+    <input type="text" id="answer2" placeholder="Your answer" />
+    <button onclick="checkAnswer(2)">Submit</button>
+    <span class="tick" id="tick2">✅</span>
+  </div>
+
+  <div class="question-block" id="q3">
+    <p>3. 26.01.25</p>
+    <input type="text" id="answer3" placeholder="Your answer" />
+    <button onclick="checkAnswer(3)">Submit</button>
+    <span class="tick" id="tick3">✅</span>
+  </div>
+
+  <div class="question-block" id="q4">
+    <p>4. What song is this ?</p>
   <audio controls>
     <source src="mystery_song.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
+
+    <input type="text" id="answer4" placeholder="Your answer" />
+    <button onclick="checkAnswer(4)">Submit</button>
+    <span class="tick" id="tick4">✅</span>
+  </div>
+
+  <div id="final-clue">🎁 Dans le sillage d’un enfant de Méduse, porteur d’essor céleste,
+Là où la blancheur immaculée embrasse la nuit silencieuse,
+Une monture insaisissable déploie ses ailes invisibles,
+Et, telle l’inspiratrice aux neuf voix, elle guide nos songes vers l’aube de l’hiver.</div>
+
+  <script>
+    function normalize(str) {
+      return str.trim().toLowerCase();
+    }
+
+    const correctAnswers = {
+      1: ["1", "2.0", "2.04"],
+      2: ["golgi apparatus", "1", "golgi complex"],
+      3: ["closure of atrioventricular valves", "1", "closure of mitral and tricuspid valves", "atrioventricular valves closing"],
+      4: ["vitamin c", "1"]
+    };
+
+    const answeredCorrectly = { 1: false, 2: false, 3: false, 4: false };
+
+    function updateProgress() {
+      const correctCount = Object.values(answeredCorrectly).filter(Boolean).length;
+      document.getElementById("progress").innerText = `✅ ${correctCount} / 4 correct`;
+
+      if (correctCount === 4) {
+        document.getElementById("final-clue").style.display = "block";
+      }
+    }
+
+    function checkAnswer(qNum) {
+      const userAnswer = normalize(document.getElementById(`answer${qNum}`).value);
+      const tick = document.getElementById(`tick${qNum}`);
+
+      if (correctAnswers[qNum].includes(userAnswer)) {
+        answeredCorrectly[qNum] = true;
+        tick.style.display = "inline";
+      }
+      updateProgress();
+    }
+  </script>
 </body>
 </html>
 
