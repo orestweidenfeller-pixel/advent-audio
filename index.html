@@ -145,6 +145,12 @@ Et, telle l’inspiratrice aux neuf voix, elle guide nos songes vers l’aube de
       }
       updateProgress();
     }
+     else {
+        answeredCorrectly[qNum] = false;
+        tick.textContent = "❌";
+        tick.style.color = "red";
+        tick.style.display = "inline";
+     }
   </script>
 </body>
 </html>
