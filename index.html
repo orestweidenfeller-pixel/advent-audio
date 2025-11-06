@@ -78,21 +78,21 @@
     <p>1. How to say I love you in ukrainian</p>
     <input type="text" id="answer1" placeholder="Your answer (s)" />
     <button onclick="checkAnswer(1)">Submit</button>
-    <span class="tick" id="tick1">✅</span>
+    <span class="tick" id="tick1"></span>
   </div>
 
   <div class="question-block" id="q2">
     <p>2. Quel est mon plat Ukrainien préféré ?</p>
     <input type="text" id="answer2" placeholder="Your answer" />
     <button onclick="checkAnswer(2)">Submit</button>
-    <span class="tick" id="tick2">✅</span>
+    <span class="tick" id="tick2"></span>
   </div>
 
   <div class="question-block" id="q3">
     <p>3. 26.01.25</p>
     <input type="text" id="answer3" placeholder="Your answer" />
     <button onclick="checkAnswer(3)">Submit</button>
-    <span class="tick" id="tick3">✅</span>
+    <span class="tick" id="tick3"></span>
   </div>
 
   <div class="question-block" id="q4">
@@ -104,7 +104,7 @@
 
     <input type="text" id="answer4" placeholder="Your answer" />
     <button onclick="checkAnswer(4)">Submit</button>
-    <span class="tick" id="tick4">✅</span>
+    <span class="tick" id="tick4"></span>
   </div>
 
   <div id="final-clue">🎁 Dans le sillage d’un enfant de Méduse, porteur d’essor céleste,
@@ -113,16 +113,30 @@ Une monture insaisissable déploie ses ailes invisibles,
 Et, telle l’inspiratrice aux neuf voix, elle guide nos songes vers l’aube de l’hiver.</div>
 
   <script>
+    // Normalize: trim, lowercase, remove combining accents, collapse spaces
     function normalize(str) {
-      return str.trim().toLowerCase();
+      if (!str && str !== "") return "";
+      return String(str)
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ");
     }
 
-    const correctAnswers = {
+    // raw correct answers (kept readable)
+    const rawCorrectAnswers = {
       1: ["1", "Я тебе кохаю", "Я тебе кохаю "],
       2: ["Пельмені", "1", "Пельмені "],
       3: ["1", "atrioventricular valves closing"],
       4: ["Голодні ", "1", "Голодні"]
     };
+
+    // precompute normalized correct answers to avoid mismatches
+    const correctAnswers = {};
+    for (const q in rawCorrectAnswers) {
+      correctAnswers[q] = rawCorrectAnswers[q].map(a => normalize(a));
+    }
 
     const answeredCorrectly = { 1: false, 2: false, 3: false, 4: false };
 
@@ -132,25 +146,37 @@ Et, telle l’inspiratrice aux neuf voix, elle guide nos songes vers l’aube de
 
       if (correctCount === 4) {
         document.getElementById("final-clue").style.display = "block";
+      } else {
+        document.getElementById("final-clue").style.display = "none";
       }
     }
 
     function checkAnswer(qNum) {
-      const userAnswer = normalize(document.getElementById(`answer${qNum}`).value);
+      const userAnswerRaw = document.getElementById(`answer${qNum}`).value;
+      const userAnswer = normalize(userAnswerRaw);
       const tick = document.getElementById(`tick${qNum}`);
+      const correctList = correctAnswers[qNum] || [];
 
-      if (correctAnswers[qNum].includes(userAnswer)) {
+      if (userAnswer.length === 0) {
+        // empty input -> clear icon and mark unanswered
+        answeredCorrectly[qNum] = false;
+        tick.style.display = "none";
+        tick.textContent = "";
+      } else if (correctList.includes(userAnswer)) {
+        // correct
         answeredCorrectly[qNum] = true;
+        tick.textContent = "✅";
+        tick.style.color = "#2e7d32";
         tick.style.display = "inline";
-      }
-      updateProgress();
-    }
-     else {
+      } else {
+        // wrong
         answeredCorrectly[qNum] = false;
         tick.textContent = "❌";
         tick.style.color = "red";
         tick.style.display = "inline";
-     }
+      }
+      updateProgress();
+    }
   </script>
 </body>
 </html>
