@@ -1,8 +1,7 @@
-<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>How much do you know about ukraine ? Quiz</title>
+  <title>Advent Calendar Quiz</title>
   <style>
     body {
       font-family: sans-serif;
@@ -71,32 +70,32 @@
   </style>
 </head>
 <body>
-  <h1>How much do you know about ukraine ?</h1>
+  <h1>Advent Calendar Quiz</h1>
   <div id="progress">✅ 0 / 4 correct</div>
 
   <div class="question-block" id="q1">
-    <p>1. What does this letter sound like : П </p>
+    <p>1. How to say I love you in ukrainian</p>
     <input type="text" id="answer1" placeholder="Your answer (s)" />
     <button onclick="checkAnswer(1)">Submit</button>
     <span class="tick" id="tick1"></span>
   </div>
 
   <div class="question-block" id="q2">
-    <p>2. What is the capital of ukraine ?</p>
+    <p>2. Quel est mon plat Ukrainien préféré ?</p>
     <input type="text" id="answer2" placeholder="Your answer" />
     <button onclick="checkAnswer(2)">Submit</button>
     <span class="tick" id="tick2"></span>
   </div>
 
   <div class="question-block" id="q3">
-    <p>3. What is the second largest city in ukraine ?</p>
+    <p>3. 26.01.25</p>
     <input type="text" id="answer3" placeholder="Your answer" />
     <button onclick="checkAnswer(3)">Submit</button>
     <span class="tick" id="tick3"></span>
   </div>
 
   <div class="question-block" id="q4">
-    <p>4. ....</p>
+    <p>4. What song is this ? Clue on day 21</p>
   <audio controls>
     <source src="mystery_song.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
@@ -107,7 +106,9 @@
     <span class="tick" id="tick4"></span>
   </div>
 
-  <div id="final-clue">🎁 Bravo !</div>
+  <div id="final-clue">🎁 On dit qu’au crépuscule, les dieux prêtent parfois leurs souffles aux amants qui cherchent la route oubliée.
+Là, ni mer ni ciel, mais une vaste respiration de terre,
+où chaque battement d’air répond au rythme de deux destins entrelacés.</div>
 
   <script>
     // Normalize: trim, lowercase, remove combining accents, collapse spaces
@@ -123,9 +124,9 @@
 
     // raw correct answers (kept readable)
     const rawCorrectAnswers = {
-      1: ["1", "Я тебе кохаю", "Я тебе кохаю ", "P"],
-      2: ["Пельмені", "1", "kyiv "],
-      3: ["Голодні ", "1", "Kharkiv ", "Kyiv"],
+      1: ["1", "Я тебе кохаю", "Я тебе кохаю "],
+      2: ["Пельмені", "1", "Пельмені "],
+      3: ["Голодні ", "1", "Голодні"],
       4: ["Щедрик", "1"]
     };
 
@@ -177,4 +178,3 @@
   </script>
 </body>
 </html>
-
